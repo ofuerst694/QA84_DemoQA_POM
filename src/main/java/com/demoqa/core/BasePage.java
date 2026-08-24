@@ -1,5 +1,7 @@
 package com.demoqa.core;
 
+import org.assertj.core.api.SoftAssertions;
+import org.jspecify.annotations.NonNull;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
@@ -13,20 +15,27 @@ import java.time.Duration;
 public abstract class BasePage {
     protected WebDriver driver;
     public static JavascriptExecutor js;
+    public static SoftAssertions softly;
 
     public BasePage(WebDriver driver) {
         this.driver = driver;
         PageFactory.initElements(driver,this);
         js = (JavascriptExecutor) driver;
+        softly = new SoftAssertions();
     }
     public void scrollWithJS(int x,int y){
         js.executeScript("window.scrollBy(" + x + "," + y + ")");
     }
+    //FOR example принудительный скролл при помощи JS не зависит от координат
+//    public void scrollWithJS(WebElement element){
+//        js.executeScript("arguments[0].scrollIntoView(true);", element);
+//
+//    }
     public void clickWithJS(WebElement element, int x, int y){
         scrollWithJS(x,y);
         js.executeScript("arguments[0].click();", element);// решение со скроллом независимо от разрегения экрана
-
     }
+
     public void typeWithJS(WebElement element,String text,int x,int y){
         scrollWithJS(x,y);
         type(element,text);
@@ -43,7 +52,7 @@ public abstract class BasePage {
         }
     }
     public boolean isAlertPresent(int time){
-        Alert alert = new WebDriverWait(driver, Duration.ofSeconds(time))
+        Alert alert = getWait(time)
                 .until(ExpectedConditions.alertIsPresent());
         if (alert==null){
             return false;
@@ -53,8 +62,16 @@ public abstract class BasePage {
         }
     }
 
+    public WebDriverWait getWait(int time) {
+        return new WebDriverWait(driver, Duration.ofSeconds(time));
+    }
+
 
     public boolean isContainsText(String text, WebElement element) {
         return element.getText().contains(text);
+    }
+
+    public boolean shouldHaveText(WebElement element, String text, int time) {
+        return getWait(time).until(ExpectedConditions.textToBePresentInElement(element, text));
     }
 }
