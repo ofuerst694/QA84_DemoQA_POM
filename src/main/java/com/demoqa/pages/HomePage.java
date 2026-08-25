@@ -21,7 +21,6 @@ public class HomePage extends BasePage {
 
     @FindBy(css = "a[href$='/alertsWindows']")
     WebElement alertsWindows;
-
     public SidePanel getAlertsFrameWindows() {
         clickWithJS(alertsWindows, 0, 300);
         return new SidePanel(driver);
@@ -29,7 +28,7 @@ public class HomePage extends BasePage {
     @FindBy(css = "a[href$='/widgets']")
     WebElement widgets;
     public SidePanel getWidgets() {
-        click(widgets);
+        clickWithJS(widgets, 0, 300);
         return new SidePanel(driver);
     }
 }
