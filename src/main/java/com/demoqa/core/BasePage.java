@@ -31,6 +31,23 @@ public abstract class BasePage {
 //        js.executeScript("arguments[0].scrollIntoView(true);", element);
 //
 //    }
+
+   // Nikolay Golovin
+    public void scrollToElement1(WebElement element) {
+        js.executeScript("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", element);
+    }
+    // Скроллит к элементу и нажимает на него через JS
+    public void clickWithJS1(WebElement element) {
+        scrollToElement1(element);
+        js.executeScript("arguments[0].click();", element);
+    }
+
+    // Скроллит к элементу и вводит текст
+    public void typeWithJS1(WebElement element, String text) {
+        scrollToElement1(element);
+        type(element, text);
+    }
+
     public void clickWithJS(WebElement element, int x, int y){
         scrollWithJS(x,y);
         js.executeScript("arguments[0].click();", element);// решение со скроллом независимо от разрегения экрана
@@ -87,5 +104,9 @@ public abstract class BasePage {
             e.getMessage();
             return false;
         }
+    }
+    // Zeit eingegeben
+    public void waitIsElementVisibility(WebElement element, int time) {
+        getWait(time).until(ExpectedConditions.visibilityOf(element));
     }
 }

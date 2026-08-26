@@ -27,6 +27,13 @@ public class SelectPage extends BasePage {
         return this;
     }
 
+    public SelectPage verifyColor1(String expectedColor) {
+        String actualColor = new Select(oldSelectMenu)
+                .getFirstSelectedOption().getText();
+        Assertions.assertEquals(actualColor, expectedColor);
+        return this;
+    }
+
     @FindBy(id = "react-select-4-input")
     WebElement input;
     @FindBy(css = "html")

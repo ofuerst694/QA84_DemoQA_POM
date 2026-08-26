@@ -31,4 +31,11 @@ public class HomePage extends BasePage {
         clickWithJS(widgets, 0, 300);
         return new SidePanel(driver);
     }
+
+    @FindBy(css = "a[href$='/elements']")
+    WebElement elements;
+    public SidePanel getElements() {
+        clickWithJS(elements, 0,300);
+        return new SidePanel(driver);
+    }
 }

@@ -51,4 +51,10 @@ public class WidgetsTests extends TestBase {
         new SliderPage(driver).moveSlider()
                 .verifySliderValue("100");
     }
+//    @Test//Ievgeniia Zolotarenko
+//    public void oldStyleSelectMenuTest1(){
+//        sidePanel.getSelectMenu();
+//        select.oldStyleSelect("Green")
+//                .verifyColor("Green");
+//    }
 }
