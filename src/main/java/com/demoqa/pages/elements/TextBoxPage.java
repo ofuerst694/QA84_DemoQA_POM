@@ -8,6 +8,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+//import static jdk.javadoc.internal.doclets.formats.html.markup.HtmlStyles.title;
+
 public class TextBoxPage extends BasePage {
     public TextBoxPage(WebDriver driver) {
         super(driver);
@@ -61,7 +63,41 @@ public class TextBoxPage extends BasePage {
     }
 
     public TextBoxPage enterPersonalDataWithJS(String name, String email) {
-        js.executeScript("");
+        js.executeScript("document.getElementById('userName').value = '"+name+"';");
+        js.executeScript("document.getElementById('userEmail').value = '"+email+"';");
         return this;
+    }
+
+    public TextBoxPage clickOnSubmitWithJS() {
+        js.executeScript("document.querySelector('#submit').click();");
+        js.executeScript("document.querySelector('#submit').style.backgroundColor='red';");
+        return this;
+    }
+
+    public TextBoxPage getInnerText() {
+        String innerText = js.executeScript("return document.documentElement.innerText;").toString();
+        System.out.println(innerText);
+        return this;
+    }
+
+    public TextBoxPage verifyUrl() {
+        String url = js.executeScript("return document.URL").toString();
+        System.out.println("URL = " + url);
+        return this;
+    }
+    public TextBoxPage refreshWithJS(){
+       js.executeScript("history.go(0);");
+        return this;
+    }
+
+    public TextBoxPage navigateWithJS(String url) {
+        js.executeScript("window.location='" + url + "';");
+            return this;
+    }
+
+    public TextBoxPage verifyFaveIconTitle() {
+        String title = js.executeScript("return document.title;").toString();
+        System.out.println(title);
+            return this;
     }
 }

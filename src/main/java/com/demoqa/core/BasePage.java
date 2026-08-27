@@ -8,6 +8,9 @@ import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import javax.net.ssl.HttpsURLConnection;
+import java.io.IOException;
+import java.net.URL;
 import java.time.Duration;
 
 public abstract class BasePage {
@@ -18,12 +21,13 @@ public abstract class BasePage {
 
     public BasePage(WebDriver driver) {
         this.driver = driver;
-        PageFactory.initElements(driver,this);
+        PageFactory.initElements(driver, this);
         js = (JavascriptExecutor) driver;
         softly = new SoftAssertions();
         actions = new Actions(driver);
     }
-    public void scrollWithJS(int x,int y){
+
+    public void scrollWithJS(int x, int y) {
         js.executeScript("window.scrollBy(" + x + "," + y + ")");
     }
     //FOR example принудительный скролл при помощи JS не зависит от координат
@@ -32,10 +36,11 @@ public abstract class BasePage {
 //
 //    }
 
-   // Nikolay Golovin
+    // Nikolay Golovin
     public void scrollToElement1(WebElement element) {
         js.executeScript("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", element);
     }
+
     // Скроллит к элементу и нажимает на него через JS
     public void clickWithJS1(WebElement element) {
         scrollToElement1(element);
@@ -48,32 +53,34 @@ public abstract class BasePage {
         type(element, text);
     }
 
-    public void clickWithJS(WebElement element, int x, int y){
-        scrollWithJS(x,y);
+    public void clickWithJS(WebElement element, int x, int y) {
+        scrollWithJS(x, y);
         js.executeScript("arguments[0].click();", element);// решение со скроллом независимо от разрегения экрана
     }
 
-    public void typeWithJS(WebElement element,String text,int x,int y){
-        scrollWithJS(x,y);
-        type(element,text);
+    public void typeWithJS(WebElement element, String text, int x, int y) {
+        scrollWithJS(x, y);
+        type(element, text);
     }
 
-    public void click(WebElement element){
+    public void click(WebElement element) {
         element.click();
     }
-    public void type(WebElement element,String text){
-        if (text!=null){
+
+    public void type(WebElement element, String text) {
+        if (text != null) {
             click(element);
             element.clear();
             element.sendKeys(text);
         }
     }
-    public boolean isAlertPresent(int time){
+
+    public boolean isAlertPresent(int time) {
         Alert alert = getWait(time)
                 .until(ExpectedConditions.alertIsPresent());
-        if (alert==null){
+        if (alert == null) {
             return false;
-        }else {
+        } else {
             driver.switchTo().alert().accept();
             return true;
         }
@@ -109,4 +116,28 @@ public abstract class BasePage {
     public void waitIsElementVisibility(WebElement element, int time) {
         getWait(time).until(ExpectedConditions.visibilityOf(element));
     }
+
+    public void verifyLinks(String url){
+        try {
+            URL linkUrl = new URL(url);
+            //create URL connection and get response code
+            HttpsURLConnection connection = (HttpsURLConnection) linkUrl
+                    .openConnection();
+            connection.setConnectTimeout(5000);
+            connection.connect();
+            int statusCode = connection.getResponseCode();
+            if (statusCode >=400) {
+                System.out.println(url + " -->  " + connection.getResponseMessage() + " is a BROKEN links");
+            }else{
+                System.out.println( url + " -->  " + connection.getResponseMessage());
+            }
+        } catch (Exception e) {
+            System.out.println(url + " -->  " +  "ERROR occurred");
+        }
+    }
 }
+
+
+
+
+

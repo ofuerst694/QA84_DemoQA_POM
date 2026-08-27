@@ -3,6 +3,7 @@ package com.demoqa.tests;
 import com.demoqa.core.TestBase;
 import com.demoqa.pages.HomePage;
 import com.demoqa.pages.SidePanel;
+import com.demoqa.pages.elements.BrokenLinksImagesPage;
 import com.demoqa.pages.elements.ButtonPage;
 import com.demoqa.pages.elements.TextBoxPage;
 import com.demoqa.utils.MyArgumentsProvider;
@@ -17,6 +18,7 @@ public class ElementsTests extends TestBase {
     SidePanel sidePanel;
     ButtonPage buttons;
     TextBoxPage textBox;
+    BrokenLinksImagesPage brokenLinks;
 
     @BeforeEach
     public void precondition(){
@@ -24,6 +26,7 @@ public class ElementsTests extends TestBase {
         buttons = new ButtonPage(driver);
         new HomePage(driver).getElements();
         textBox = new TextBoxPage(driver);
+        brokenLinks = new BrokenLinksImagesPage(driver);
     }
 
     @Test
@@ -73,6 +76,23 @@ public class ElementsTests extends TestBase {
     @Test
     public void javaScriptExecutorTest(){
         sidePanel.getTextBox();
-        textBox.enterPersonalDataWithJS("Kris Tomash", "tett@gmail.com");
+        textBox.enterPersonalDataWithJS("Kris Tomash", "test123@gmail.com")
+                .clickOnSubmitWithJS()
+                .getInnerText()
+                .verifyUrl()
+                .refreshWithJS()
+                .navigateWithJS("https://icarro-v1.netlify.app/let-car-work")
+                .verifyFaveIconTitle()
+        ;
+    }
+    @Test
+    public void getAllLinksTest(){
+        sidePanel.getBrokenLinkImages();
+        brokenLinks.getAllLinks();
+    }
+    @Test
+    public void checkBrokenLinksTest(){
+        sidePanel.getBrokenLinkImages();
+        brokenLinks.checkBrokenLinks();
     }
 }

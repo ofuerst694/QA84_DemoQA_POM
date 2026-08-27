@@ -6,6 +6,7 @@ import com.demoqa.pages.alertsFrameWindows.FramesPage;
 import com.demoqa.pages.alertsFrameWindows.NestedFramesPage;
 import com.demoqa.pages.alertsFrameWindows.WindowsPage;
 import com.demoqa.pages.bookStore.LoginPage;
+import com.demoqa.pages.elements.BrokenLinksImagesPage;
 import com.demoqa.pages.elements.ButtonPage;
 import com.demoqa.pages.elements.TextBoxPage;
 import com.demoqa.pages.widgets.MenuPage;
@@ -86,5 +87,11 @@ public class SidePanel extends BasePage {
     public TextBoxPage getTextBox() {
         clickWithJS1(textBox);
         return new TextBoxPage(driver);
+    }
+    @FindBy(css = "a[href='/broken']" )
+    WebElement broken;
+    public BrokenLinksImagesPage getBrokenLinkImages() {
+        click(broken);
+        return new BrokenLinksImagesPage(driver);
     }
 }
