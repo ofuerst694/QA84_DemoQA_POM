@@ -6,6 +6,7 @@ import com.demoqa.pages.SidePanel;
 import com.demoqa.pages.elements.BrokenLinksImagesPage;
 import com.demoqa.pages.elements.ButtonPage;
 import com.demoqa.pages.elements.TextBoxPage;
+import com.demoqa.pages.elements.UploadPage;
 import com.demoqa.utils.MyArgumentsProvider;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -19,6 +20,7 @@ public class ElementsTests extends TestBase {
     ButtonPage buttons;
     TextBoxPage textBox;
     BrokenLinksImagesPage brokenLinks;
+    UploadPage upload;
 
     @BeforeEach
     public void precondition(){
@@ -27,6 +29,7 @@ public class ElementsTests extends TestBase {
         new HomePage(driver).getElements();
         textBox = new TextBoxPage(driver);
         brokenLinks = new BrokenLinksImagesPage(driver);
+        upload = new UploadPage(driver);
     }
 
     @Test
@@ -94,5 +97,18 @@ public class ElementsTests extends TestBase {
     public void checkBrokenLinksTest(){
         sidePanel.getBrokenLinkImages();
         brokenLinks.checkBrokenLinks();
+    }
+
+    @Test
+    public void checkBrokenImagesTest(){
+        sidePanel.getBrokenLinkImages();
+        brokenLinks.checkBrokenImages();
+    }
+    @Test
+    public void performKeyEventTest(){
+        sidePanel.getUpload();
+        upload.performKeyEvent()
+                .verifyFilePath("C:\\fakepath\\D1.txt")
+                ;
     }
 }

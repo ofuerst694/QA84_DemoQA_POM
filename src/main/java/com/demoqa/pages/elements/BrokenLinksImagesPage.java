@@ -13,7 +13,8 @@ public class BrokenLinksImagesPage extends BasePage {
         super(driver);
     }
 
-    @FindBy(css = "a")
+    //@FindBy(css = "a")
+    @FindBy(css= "div.col-md-6 a")
     List<WebElement> allLinks;
     public BrokenLinksImagesPage getAllLinks() {
         //size
@@ -34,6 +35,59 @@ public class BrokenLinksImagesPage extends BasePage {
             String url = element.getAttribute("href");
             verifyLinks(url);
         }
+        softly.assertAll();
         return this;
+    }
+//    @FindBy(css = "img")
+//    List<WebElement> images;
+//    public BrokenLinksImagesPage checkBrokenImages() {
+//        System.out.println("Total images on the page = " + images.size());
+//        for (int i = 0; i < images.size(); i++) {
+//            WebElement image =images.get(i);
+//            String imageUrl = image.getAttribute("src");
+//            verifyLinks(imageUrl);
+//
+//            try {
+//                boolean imageDisplayed = (Boolean)js.executeScript
+//                        ("return (typeof arguments[0].naturalWidth! " +
+//                                "= undefined && arguments[0].naturalWidth>0);",image);
+//                if(imageDisplayed){
+//                    System.out.println("Display -> OK");
+//                }else {
+//                    System.out.println("Display -> Broken");
+//                }
+//            } catch (Exception e) {
+//                System.out.println("Error occurred");
+//            }
+//        }
+//        return this;
+//    }
+    @FindBy(css = "img")
+    List<WebElement> images;
+    public BrokenLinksImagesPage checkBrokenImages() {
+        System.out.println("Total images on the page = " + images.size());
+        for (int i = 0; i <images.size(); i++) {
+            WebElement image = images.get(i);
+            String imageUrl = image.getAttribute("src");
+            verifyLinks(imageUrl);
+
+            try {
+                boolean imageDisplayed = (Boolean)js.executeScript
+                        ("return (typeof arguments[0].naturalWidth!=undefined && arguments[0].naturalWidth>0);",image);
+                if(imageDisplayed){
+                    //System.out.println("Display -> OK");
+                 softly.assertThat(imageDisplayed);
+                }else {
+                    //System.out.println("Display - > Broken");
+                    softly.fail("Broken image ->" + imageUrl);
+                }
+            } catch (Exception e) {
+                //System.out.println("Error occurred");
+                softly.fail("Error occurred");
+            }
+        }
+        softly.assertAll();
+        return this;
+
     }
 }
