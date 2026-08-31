@@ -1,0 +1,5 @@
+2528 [main] INFO  i.g.bonigarcia.wdm.WebDriverManager -- Using chromedriver 151.0.7922.138 (resolved driver for Chrome 151)
+2583 [main] INFO  i.g.bonigarcia.wdm.WebDriverManager -- Exporting webdriver.chrome.driver as C:\Users\7500251\.cache\selenium\chromedriver\win64\151.0.7922.138\chromedriver.exe
+6606 [main] INFO  com.demoqa.utils.MyListener -- We opened the site https://demoqa.com
+9061 [main] INFO  com.demoqa.utils.MyListener -- We clicked on [[ChromeDriver: chrome on windows (a1b08ca67ab251025963515a5d0da7a5)] -> css selector: a[href='/broken']]
+9062 [main] INFO  com.demoqa.utils.MyListener -- *******************************

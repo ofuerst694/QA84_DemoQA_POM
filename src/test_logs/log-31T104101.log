@@ -1,0 +1,3 @@
+1720 [main] INFO  i.g.bonigarcia.wdm.WebDriverManager -- Using chromedriver 151.0.7922.138 (resolved driver for Chrome 151)
+1770 [main] INFO  i.g.bonigarcia.wdm.WebDriverManager -- Exporting webdriver.chrome.driver as C:\Users\7500251\.cache\selenium\chromedriver\win64\151.0.7922.138\chromedriver.exe
+6627 [main] INFO  com.demoqa.utils.MyListener -- We opened the site https://demoqa.com
